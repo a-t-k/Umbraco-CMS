@@ -2,11 +2,11 @@ using System.Dynamic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Hosting;
 using Umbraco.Cms.Core.Web.Mvc;
 using Umbraco.Cms.Web.Common.Controllers;
+using Umbraco.Cms.Web.Common.Routing;
 
 namespace Umbraco.Extensions;
 
