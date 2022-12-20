@@ -44,3 +44,45 @@ public static class LinkGeneratorExtensions
         typeof(T),
         new Dictionary<string, object?> { ["id"] = id });
 }
+
+[Obsolete("Please use Umbraco.Cms.Web.Common.Routing.LinkGenerator instead.")]
+public static class MicrosoftLinkGeneratorExtensions
+{
+    /// <summary>
+    ///     Return the Url for a Surface Controller
+    /// </summary>
+    /// <typeparam name="T">The <see cref="SurfaceController" /></typeparam>
+    [Obsolete("Please use Umbraco.Cms.Web.Common.Routing.LinkGenerator instead.")]
+    public static string? GetUmbracoSurfaceUrl<T>(
+        this Microsoft.AspNetCore.Routing.LinkGenerator linkGenerator,
+        Expression<Func<T, object>> methodSelector)
+        where T : SurfaceController
+    {
+        MethodInfo? method = ExpressionHelper.GetMethodInfo(methodSelector);
+        IDictionary<string, object?>? methodParams = ExpressionHelper.GetMethodParams(methodSelector);
+
+        if (method == null)
+        {
+            throw new MissingMethodException(
+                $"Could not find the method {methodSelector} on type {typeof(T)} or the result ");
+        }
+
+        if (methodParams is null || methodParams.Any() == false)
+        {
+            return linkGenerator.GetUmbracoSurfaceUrl<T>(method.Name);
+        }
+
+        return linkGenerator.GetUmbracoSurfaceUrl<T>(method.Name, methodParams);
+    }
+
+    /// <summary>
+    ///     Return the Url for a Surface Controller
+    /// </summary>
+    /// <typeparam name="T">The <see cref="SurfaceController" /></typeparam>
+    [Obsolete("Please use Umbraco.Cms.Web.Common.Routing.LinkGenerator instead.")]
+    public static string? GetUmbracoSurfaceUrl<T>(this Microsoft.AspNetCore.Routing.LinkGenerator linkGenerator, string actionName, object? id = null)
+        where T : SurfaceController => linkGenerator.GetUmbracoControllerUrl(
+        actionName,
+        typeof(T),
+        new Dictionary<string, object?> { ["id"] = id });
+}
